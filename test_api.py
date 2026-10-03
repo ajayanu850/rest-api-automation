@@ -76,3 +76,14 @@ def test_delete_post():
 
     print("\nDELETE RESPONSE")
     print("Status Code:", response.status_code)
+
+def test_get_invalid_user():
+
+    response = requests.get(
+        f"{BASE_URL}/users/9999"
+    )
+
+    assert response.status_code == 404
+
+    print("\nNEGATIVE TEST")
+    print("Invalid User Status Code:", response.status_code)
