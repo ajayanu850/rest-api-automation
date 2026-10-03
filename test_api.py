@@ -5,15 +5,41 @@ BASE_URL = "https://jsonplaceholder.typicode.com"
 
 
 def test_get_user():
-    response = requests.get(f"{BASE_URL}/users/1")
 
+    response = requests.get(
+        f"{BASE_URL}/users/1"
+    )
+
+    # 1. Validate status code
     assert response.status_code == 200
 
+    # 2. Validate response type
+    assert "application/json" in response.headers["Content-Type"]
+
+    # Convert JSON response into Python dictionary
     data = response.json()
 
+    # 3. Validate JSON structure
+    assert isinstance(data, dict)
+
+    # 4. Validate required keys
+    assert "id" in data
+    assert "name" in data
+    assert "email" in data
+
+    # 5. Validate expected value
     assert data["id"] == 1
 
+    # 6. Validate data types
+    assert isinstance(data["id"], int)
+    assert isinstance(data["name"], str)
+    assert isinstance(data["email"], str)
+
+    # 7. Basic email validation
+    assert "@" in data["email"]
+
     print("\nGET USER")
+    print("User ID:", data["id"])
     print("User Name:", data["name"])
     print("Email:", data["email"])
 
