@@ -57,16 +57,36 @@ def test_create_post():
         json=payload
     )
 
+    # Validate status code
     assert response.status_code == 201
+
+    # Validate response type
+    assert "application/json" in response.headers["Content-Type"]
 
     data = response.json()
 
-    assert data["title"] == "Python Automation"
-    assert data["userId"] == 1
+    # Validate JSON structure
+    assert isinstance(data, dict)
+
+    # Validate required keys
+    assert "id" in data
+    assert "title" in data
+    assert "body" in data
+    assert "userId" in data
+
+    # Validate returned values
+    assert data["title"] == payload["title"]
+    assert data["body"] == payload["body"]
+    assert data["userId"] == payload["userId"]
+
+    # Validate data types
+    assert isinstance(data["id"], int)
+    assert isinstance(data["title"], str)
+    assert isinstance(data["body"], str)
+    assert isinstance(data["userId"], int)
 
     print("\nPOST RESPONSE")
     print(data)
-
 
 def test_update_post():
 
@@ -82,15 +102,37 @@ def test_update_post():
         json=payload
     )
 
+    # Validate status code
     assert response.status_code == 200
+
+    # Validate response type
+    assert "application/json" in response.headers["Content-Type"]
 
     data = response.json()
 
-    assert data["title"] == "Updated Python Automation"
+    # Validate JSON structure
+    assert isinstance(data, dict)
+
+    # Validate required fields
+    assert "id" in data
+    assert "title" in data
+    assert "body" in data
+    assert "userId" in data
+
+    # Validate updated values
+    assert data["id"] == payload["id"]
+    assert data["title"] == payload["title"]
+    assert data["body"] == payload["body"]
+    assert data["userId"] == payload["userId"]
+
+    # Validate data types
+    assert isinstance(data["id"], int)
+    assert isinstance(data["title"], str)
+    assert isinstance(data["body"], str)
+    assert isinstance(data["userId"], int)
 
     print("\nPUT RESPONSE")
     print(data)
-
 
 def test_delete_post():
 
